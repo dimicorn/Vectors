@@ -13,25 +13,26 @@ struct subvector {
 void init(subvector *qv){
     qv -> mas = (int *)malloc(sizeof(int));
     qv -> top = 0;
-    qv -> capacity = sizeof(int);
+    qv -> capacity = 1;
 }
 
-void push_back(subvector *qv, int d){
-    if ((qv -> top)*4 ==  qv -> capacity) {
-        qv -> top ++;
-        qv -> mas = (int*)realloc(qv -> mas,sizeof(int)*(qv -> top));
-        qv -> capacity = (qv -> capacity) *2;
+void push_back(subvector* qv, int d){
+    if (qv->capacity - qv->top == 0){
+        qv->mas = (int*)realloc(qv->mas, (qv->top *2) * sizeof(int));
         (qv -> mas)[qv -> top] = d;
+        qv->top ++;
+        qv -> capacity = (qv -> capacity) *2;
     }
     else{
-        qv -> top ++;
-        (qv -> mas)[qv -> top] = d;
+        qv->top ++;
+        qv->mas[qv->top] = d;
     }
 }
 
-void pop_back(subvector *qv) {
-    qv -> top --;
-    qv -> mas = (int*)realloc(qv -> mas,sizeof(int)*(qv -> top));
+int pop_back(subvector* qv){
+    int a = qv->mas[qv->top - 1];
+    qv->top --;
+    return a;
 }
 
 void resize(subvector *qv, unsigned int new_capacity){

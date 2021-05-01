@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <vector>
 using namespace std;
 
 struct subvector {
@@ -9,13 +10,13 @@ struct subvector {
 };
 // capacity = sizeof(int)*2^n
 
-bool init(subvector *qv){
+void init(subvector *qv){
     qv -> mas = (int *)malloc(sizeof(int));
     qv -> top = 0;
     qv -> capacity = sizeof(int);
 }
 
-bool push_back(subvector *qv, int d){
+void push_back(subvector *qv, int d){
     if ((qv -> top)*4 ==  qv -> capacity) {
         qv -> top ++;
         qv -> mas = (int*)realloc(qv -> mas,sizeof(int)*(qv -> top));
@@ -28,12 +29,12 @@ bool push_back(subvector *qv, int d){
     }
 }
 
-int pop_back(subvector *qv) {
+void pop_back(subvector *qv) {
     qv -> top --;
     qv -> mas = (int*)realloc(qv -> mas,sizeof(int)*(qv -> top));
 }
 
-bool resize(subvector *qv, unsigned int new_capacity){
+void resize(subvector *qv, unsigned int new_capacity){
     qv -> mas = (int*)realloc(qv -> mas,sizeof(int)*(new_capacity/4));
     qv -> capacity = new_capacity;
 }
@@ -56,24 +57,20 @@ void destructor(subvector *qv){
 
 void init_from_file(subvector* qv, std::string filename) {
     ifstream fromFile(filename, ios::in);
-    if (fromFile.is_open())
-    {
+    if (fromFile.is_open()){
         int count = 0;
         fromFile >> count;
-        for (int i = 0; i < count; ++i)
-        {
+        for (int i = 0; i < count; ++i){
             int element;
             fromFile >> element;
             push_back(qv, element);
         }
     }
-    else
-    {
+    else{
         cout << "The txt file doesn't open to reading" << endl;
     }
     fromFile.close();
 }
-
 int main(){
 
 }
